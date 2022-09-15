@@ -1,0 +1,73 @@
+package com.mycgv.dao;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.mycgv.vo.CgvMemberVO;
+
+@Repository
+public class CgvMemberDAO{
+	
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
+	/**
+	 * totalCount : 전체 로우수 출력
+	 */
+	public int totalCount() {		
+		return sqlSession.selectOne("mapper.member.total_count");
+	}
+	
+	/**
+	 * idCheck : 아이디 중복체크
+	 */
+	public int idCheck(String id) {		
+		return sqlSession.selectOne("mapper.member.idcheck", id);
+	}
+	
+	/**
+	 * selectContent : 회원 상세 정보
+	 */
+	public CgvMemberVO selectContent(String id) {
+		return sqlSession.selectOne("mapper.member.content", id);
+	}
+	
+	/**
+	 * selectAll : 회원 전체 리스트
+	 */
+	public ArrayList<CgvMemberVO> selectAll(int startCount, int endCount){
+		//Map 타입의 객체를 생성하고 start, end 라는 키이름이로 파라미터를 넘긴다
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("start", String.valueOf(startCount)); //String 이라면 형변환 ex)String.valueOf(startCount)
+		param.put("end", String.valueOf(endCount));
+		
+		//부모타입으로 결과를 받아야함 (부모타입 = sqlSession.selectList();)
+		
+		List<CgvMemberVO> list = sqlSession.selectList("mapper.member.listAll", param);
+		
+		return (ArrayList<CgvMemberVO>)list; //형변환
+	}
+	
+	/**
+	 * select : 로그인
+	 */
+	public int select(CgvMemberVO vo) {		
+		return sqlSession.selectOne("mapper.member.login", vo);
+	}
+	
+	
+	
+	/**
+	 * insert : 회원가입 
+	 */
+	public int insert(CgvMemberVO vo) {
+		//sqlSession 객체의 메소드를 호출아혀 실행결과를 가져옴
+		return sqlSession.insert("mapper.member.join", vo);
+	}
+}
