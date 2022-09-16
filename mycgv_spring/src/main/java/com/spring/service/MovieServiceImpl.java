@@ -2,20 +2,25 @@ package com.spring.service;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.mycgv.dao.CgvMovieDAO;
 import com.mycgv.vo.CgvMovieVO;
 
+@Service
 public class MovieServiceImpl implements MovieService {
 
+	
+	@Autowired
+	private CgvMovieDAO movieDAO;
 	
 	/*
 	 * 영화등록 로우 수
 	 */
 	@Override
 	public int getTotalCount() {
-		CgvMovieDAO dao = new CgvMovieDAO();
-		int dbCount = dao.totalCount();
-		return dbCount;
+		return movieDAO.totalCount();
 	}
 	
 	/*
@@ -23,9 +28,7 @@ public class MovieServiceImpl implements MovieService {
 	 */
 	@Override
 	public ArrayList<CgvMovieVO> getList(int startCount, int endCount){
-		CgvMovieDAO dao = new CgvMovieDAO();
-		ArrayList<CgvMovieVO> list = dao.select(startCount, endCount);
-		return list;
+		return movieDAO.select(startCount, endCount);
 	}
 	
 	/*
@@ -33,9 +36,7 @@ public class MovieServiceImpl implements MovieService {
 	 */
 	@Override
 	public CgvMovieVO getContent(String mid) {
-		CgvMovieDAO dao = new CgvMovieDAO();
-		CgvMovieVO vo = dao.select(mid);
-		return vo;
+		return movieDAO.select(mid);
 	}
 	
 	/*
@@ -44,9 +45,7 @@ public class MovieServiceImpl implements MovieService {
 	
 	@Override
 	public int getRegistResult(CgvMovieVO vo) {
-		CgvMovieDAO dao = new CgvMovieDAO();
-		int result = dao.insert(vo);
-		return result;
+		return movieDAO.insert(vo);
 	}
 	
 	/*
@@ -54,9 +53,7 @@ public class MovieServiceImpl implements MovieService {
 	 */
 	
 	public String getSelectMid() {
-		CgvMovieDAO dao = new CgvMovieDAO();
-		String mid = dao.selectMid();
-		return mid;
+		return movieDAO.selectMid();
 	}
 	
 	/*
@@ -64,8 +61,6 @@ public class MovieServiceImpl implements MovieService {
 	 */
 	
 	public int getRegistFile(CgvMovieVO vo) {
-		CgvMovieDAO dao = new CgvMovieDAO();
-		int result2 = dao.insert_file(vo);
-		return result2;
+		return movieDAO.insert_file(vo);
 	}
 }

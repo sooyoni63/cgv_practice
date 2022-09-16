@@ -42,6 +42,7 @@
 	<beans:bean id="memberDAO" class="com.mycgv.dao.CgvMemberDAO"></beans:bean>
 	<beans:bean id="boardDAO" class="com.mycgv.dao.CgvBoardDAO"></beans:bean>
 	<beans:bean id="noticeDAO" class="com.mycgv.dao.CgvNoticeDAO"></beans:bean>
+	<beans:bean id="movieDAO" class="com.mycgv.dao.CgvMovieDAO"></beans:bean>
 	
 	
 	
