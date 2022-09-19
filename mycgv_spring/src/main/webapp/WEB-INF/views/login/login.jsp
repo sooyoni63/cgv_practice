@@ -11,7 +11,6 @@
 <script src="http://localhost:9000/mycgv/resources/js/mycgv_jquery.js"></script>
 <script>
 	let join_result = '${join_result}';
-	let login_result = '${login_result}';
 	
 	if(login_result == 'fail'){
 		alert("아이디 또는 패스워드가 다릅니다. 다시 로그인해주세요");	
