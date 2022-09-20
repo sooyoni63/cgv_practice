@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.mycgv.vo.SessionVO;
+
 public class AuthInterceptor extends HandlerInterceptorAdapter{
 
 	@Override
@@ -17,15 +19,15 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		HttpSession session = request.getSession();
 		
 		//2. 로그인 성공 시 session에 로그인 인증키(sid) 담아 클라이언트에게 전송
-		String sid = (String)session.getAttribute("sid"); //String이 아닌 Object로 convert해야한다는 오류 확인 -> 형변환 진행 //로그인 성공한 계정: 자신의 ID, 로그인하지 않은 사용자: null값으로 리턴
-		if(sid == null) {
+		SessionVO svo = (SessionVO)session.getAttribute("svo"); //String이 아닌 Object로 convert해야한다는 오류 확인 -> 형변환 진행 //로그인 성공한 계정: 자신의 ID, 로그인하지 않은 사용자: null값으로 리턴
+		if(svo == null) {
 			//로그인하지 않은 사용자 : null
-			response.sendRedirect("http://localhost:9000/mycgv/login.do");
+			response.sendRedirect("http://localhost:9000/mycgv/login.do?auth=fail");
 			return false;
 		}else {
 			//sid가 null이 아니고, admin인 경우에만 접속
-			if(!sid.equals("admin")) {
-				response.sendRedirect("http://localhost:9000/mycgv/login.do");
+			if(!svo.getId().equals("admin")) {
+				response.sendRedirect("http://localhost:9000/mycgv/login.do?auth=fail");
 				return false;
 			}
 		}
@@ -34,3 +36,4 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		}
 	
 }
+

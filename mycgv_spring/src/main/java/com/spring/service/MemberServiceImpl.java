@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mycgv.dao.CgvMemberDAO;
 import com.mycgv.vo.CgvMemberVO;
+import com.mycgv.vo.SessionVO;
 
 public class MemberServiceImpl implements MemberService{
 	
@@ -17,7 +18,7 @@ public class MemberServiceImpl implements MemberService{
 	  * 로그인 처리
 	  */
 	@Override
-	public int getLoginResult(CgvMemberVO vo) {
+	public SessionVO getLoginResult(CgvMemberVO vo) {
 		//CgvMemberDAO dao = new CgvMemberDAO();
 		//int result = memberDAO.select(vo);
 		return memberDAO.select(vo);

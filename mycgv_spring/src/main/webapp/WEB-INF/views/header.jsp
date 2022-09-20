@@ -21,12 +21,12 @@
 					<img src="http://localhost:9000/mycgv/resources/images/logoRed.png" width="150" height="70"></a>
 				<span>CULTURFLEX</span>
 			</div>	
-				<c:if test="${sessionScope.sid != null}">
-				<span>${sessionScope.sid}님 반갑습니다.</span>
+				<c:if test="${sessionScope.svo != null}">
+				<span>[${sessionScope.svo.name}]님 반갑습니다.</span>
 				</c:if>
 			
 			<c:choose>	
-			<c:when test="${sessionScope.sid == null}">	
+			<c:when test="${sessionScope.svo == null}">	
 			<div>
 				<img src="http://localhost:9000/mycgv/resources/images/hcard.png">
 				<a href="http://localhost:9000/mycgv/login.do" target="_parent" >
@@ -76,7 +76,7 @@
 					<span>공지사항</span>
 				</a>
 				<!-- 관리자 계정인 경우에만 admin 메뉴를 open -->
-				<c:if test="${sessionScope.sid == 'admin'}">					
+				<c:if test="${sessionScope.svo.id == 'admin'}">					
 				<a href="http://localhost:9000/mycgv/admin.do" target="_parent" >
 					<img src="http://localhost:9000/mycgv/resources/images/loginCustomer.png">
 					<span>Admin</span>

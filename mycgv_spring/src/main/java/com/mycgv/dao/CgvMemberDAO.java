@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.mycgv.vo.CgvMemberVO;
+import com.mycgv.vo.SessionVO;
 
 @Repository
 public class CgvMemberDAO{
@@ -57,7 +58,7 @@ public class CgvMemberDAO{
 	/**
 	 * select : ·Î±×ÀÎ
 	 */
-	public int select(CgvMemberVO vo) {		
+	public SessionVO select(CgvMemberVO vo) {		
 		return sqlSession.selectOne("mapper.member.login", vo);
 	}
 	

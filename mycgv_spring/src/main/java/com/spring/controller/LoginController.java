@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mycgv.dao.CgvMemberDAO;
 import com.mycgv.vo.CgvMemberVO;
+import com.mycgv.vo.SessionVO;
 import com.spring.service.MemberServiceImpl;
 
 @Controller
@@ -25,8 +26,8 @@ public class LoginController {
 	public ModelAndView logout(HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//Session 정보를 가져와서 sid 값이 null이 아니면 session.invalidate 메소드 호출
-		String sid = (String)session.getAttribute("sid");
-		if(sid != null) {
+		SessionVO svo = (SessionVO)session.getAttribute("svo");
+		if(svo != null) {
 			session.invalidate(); //세션 정보 삭제
 			mv.addObject("logout_result","ok"); //index 페이지에서 logout_result 값을 받아서 ok인 경우 alert 창을 띄움
 		}
@@ -42,21 +43,24 @@ public class LoginController {
 	public ModelAndView loginCheck(CgvMemberVO vo, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		
-		 CgvMemberDAO dao = new CgvMemberDAO(); 
-		 int result = memberService.getLoginResult(vo); // dao.select(vo);
+		 //CgvMemberDAO dao = new CgvMemberDAO(); 
+		 SessionVO svo = memberService.getLoginResult(vo); // dao.select(vo);
 		 
+		if(svo != null) {
+			if(svo.getLoginresult() == 1){
+				//로그인 성공 --> session객체에 key(sid),value(login계정) 추가 후 index 페이지로 이동
+				//session.setAttribute("sid", vo.getId());
+				session.setAttribute("svo", svo);
+				
+				mv.addObject("login_result","ok");
+				mv.setViewName("index");
+			}
 		
-		if(result == 1){
-			//로그인 성공 --> session객체에 key(sid),value(login계정) 추가 후 index 페이지로 이동
-			session.setAttribute("sid", vo.getId());
-			
-			mv.addObject("login_result","ok");
-			mv.setViewName("index");
 		}else{
 			mv.addObject("login_result","fail");
 			mv.setViewName("/login/login");
 		}
-				
+	
 		return mv;
 	}
 	
@@ -64,7 +68,10 @@ public class LoginController {
 	 * login.do : 로그인 폼
 	 */
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
-	public String login() {
-		return "/login/login";
+	public ModelAndView login(String auth) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("auth", auth);
+		mv.setViewName("/login/login");
+		return mv;
 	}
 }

@@ -13,8 +13,10 @@
 	</insert>
 
 	<!-- member login -->
-	<select id="login" parameterType="com.mycgv.vo.CgvMemberVO" resultType="int">
-		select count(*) from cgv_member where id=#{id} and pass=#{pass}
+	<select id="login" parameterType="com.mycgv.vo.CgvMemberVO" resultType="com.mycgv.vo.SessionVO">
+		select count(*) loginresult, name, id
+		from cgv_member where id=#{id} and pass=#{pass} 
+		group by name, id
 	</select>
 	
 	<!-- member list -->
